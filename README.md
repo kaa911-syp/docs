@@ -1,55 +1,52 @@
-# Mintlify Starter Kit
+# AspidaSec Documentation (Mintlify)
 
-Use the starter kit to get your docs deployed and ready to customize.
+Source for the AspidaSec documentation site, built with [Mintlify](https://mintlify.com).
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
-
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
-
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
-
-## AI-assisted writing
-
-Set up your AI coding tool to work with Mintlify:
+## Local preview
 
 ```bash
-npx skills add https://mintlify.com/docs
-```
+# Install the Mintlify CLI once
+npm install -g mint
 
-This command installs Mintlify's documentation skill for your configured AI tools like Claude Code, Cursor, Windsurf, and others. The skill includes component reference, writing standards, and workflow guidance.
-
-See the [AI tools guides](/ai-tools) for tool-specific setup.
-
-## Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
-
-```
-npm i -g mint
-```
-
-Run the following command at the root of your documentation, where your `docs.json` is located:
-
-```
+# From this directory
+cd docs-mintlify
 mint dev
 ```
 
-View your local preview at `http://localhost:3000`.
+The site is served at `http://localhost:3000`. Edits to `.mdx` files and `docs.json` hot-reload.
 
-## Publishing changes
+## Validate before pushing
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+```bash
+mint broken-links   # report dead internal links
+```
 
-## Need help?
+## Project layout
 
-### Troubleshooting
+```
+docs-mintlify/
+├── docs.json              # site config: theme, colors, navigation, SEO
+├── favicon.svg            # browser tab icon
+├── logo/                  # light + dark wordmarks
+├── index.mdx              # home page
+├── get-started/           # introduction, quickstart, installation, configuration
+├── features/              # scanners, prioritization, output formats
+├── security-analysis/     # OWASP scan, trust model
+├── concepts/              # architecture
+├── cli/                   # per-command CLI reference
+├── api-reference/         # MCP tools (AspidaSec exposes no HTTP REST API)
+└── integrations/          # AI assistants, CI, bots, IDE, Mintlify docs MCP
+```
 
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
+## Deployment
 
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+Mintlify hosts the published site. Connect this repository in the Mintlify dashboard
+and set the content directory to `docs-mintlify`. Pushes to `main` trigger a redeploy.
+
+## Secrets
+
+This repository never stores credentials. Anything secret (for example the Mintlify
+Docs MCP client secret used to connect AI tools to the published docs) is read from an
+environment variable at the point of use — see
+[`integrations/docs-mcp.mdx`](./integrations/docs-mcp.mdx). Do not commit secrets to
+`docs.json`, `.mdx` files, or any tracked file.
